@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@model TNAShop.ViewModels.ProductViewModel.IndexViewModel
+@using (Html.BeginForm("Index", "Product", FormMethod.Post)) {
+    <div id="filter">
+        <div class="grid-item1">
+            <h3>Thương hiệu</h3>
+            @Html.DropDownList("BrandId", new SelectList(Model.Brands, "Id", "Name", ViewBag.brandId), "--Chọn thương hiệu--", new { @class = "form-control" })
+        </div>
+        <div class="grid-item2">
+            <h3>Loại đồng hồ</h3>
+
+            @Html.DropDownList("CategoryId", new SelectList(Model.Categories, "CategoryId", "CategoryName", ViewBag.CategoryId), "--Chọn loại--", new { @class = "form-control"})
+        </div>
+        <div class="grid-item3">
+            <h3>Loại dây</h3>
+            @Html.DropDownList("StrapId", new SelectList(Model.Straps, "Id", "StrapName", ViewBag.StrapId), "--Chọn loại dây--", new { @class = "form-control" })
+        </div>
+        <div class="grid-item4" style="width: 380px;">
+            <h3>Giá bán</h3>
+            <div style="display:grid; grid-template-columns: auto auto auto 10px auto;">
+                <input class="form-control" type="number" value="@ViewBag.Min" name="minCost" /> 
+                <b style="font-size: 35px; line-height: 25px;"> - </b><input class="form-control" type="number" value="@ViewBag.Max" name="maxCost" />
+                <div></div>
+                <input style="background: #4499ff; color: white; width:100px;"  value="Lọc" class="form-control" type="submit"/>
+            </div>
+        </div>
+
+    </div>
+}
+<h2>Danh mục sản phẩm</h2>
+
+@using PagedList.Mvc;
+
+<div class="product-container">
+    @foreach (var item in Model.Products) {
+        <div style="min-height: 390px; text-align: center; padding: 15px 5px;">
+            <a href="/Product/Detail?id=@item.Id">
+                <img style="max-height: 280px;" src="@Url.Content(item.Image)" />
+            </a>
+
+            <p>@item.Name</p>
+            @if (item.PromotionalPrice == "1") {
+                if (item.Price == "1") {
+                    <p>Gọi để thỏa thuận</p>
+                } else { 
+                <p>Giá niêm yết : <b style="color:red;">@item.Price</b></p>
+                }
+            } else {
+                <p>Giá niêm yết : @item.Price</p>
+                <p>Giá KM : <b style="color:red;">@item.PromotionalPrice</b></p>
+            }
+        </div>
+    }
+    <br />
+</div>
+
+Page @(Model.Products.PageCount < Model.Products.PageNumber ? 0 : Model.Products.PageNumber) of @Model.Products.PageCount
+
+@Html.PagedListPager(Model.Products, page => Url.Action("Index",
+    new { page,brandId = ViewBag.BrandId,gender = ViewBag.Gender ,filterName=ViewBag.Filter, strapId = ViewBag.StrapId}))

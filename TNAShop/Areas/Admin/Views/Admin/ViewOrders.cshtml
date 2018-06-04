@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "ViewOrders";
+}
+@model IList<TNAShop.Domain.Order>
+<h2>Danh sách hóa đơn</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>Mã hóa đơn</th>
+        <th>Ngày hóa đơn</th>
+        <th>thạng thái</th>
+        <th>Email</th>
+        <th>Tổng giá bán</th>
+        <th>Khách hàng</th>
+        <th>Số điện thoại</th>
+        <th>Địa chỉ nhận hàng</th>
+        <th>Cách thức giao hàng</th>
+        <th>Cách thức thanh toán</th>
+        <th>Ghi chú</th>
+    </tr>
+        @foreach (var order in Model) {
+            <tr>
+                <th><a href="/Admin/Admin/OrderDet?orderId=@order.Id">@order.Id</a></th>
+                <th>@order.OrderDate</th>
+                <th>@(order.Status == false ? "Chưa thanh toán" : "Đã thanh toán")</th>
+                <th>@order.Email</th>
+                <th>@order.TotalCost</th>
+                <th>@order.CustomerName</th>
+                <th>@order.PhoneNumber</th>
+                <th>@order.Address</th>
+                <th>@order.TransportionType</th>
+                <th>@order.PaymentType</th>
+                <th>@order.Note</th>
+            </tr>
+        }
+</table>
+

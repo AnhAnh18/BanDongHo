@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "AddTag";
+}
+
+@model IList<TNAShop.Domain.ProductTag>
+
+<a href="/Admin/Product/AddTags?productId=@Model[0].Product.Id">Thêm tags</a>
+<p>Đồng hồ : @Model[0].Product.Name</p>
+<p>Các thẻ</p>
+@foreach(var item in Model) {
+    <p>@item.Tag.TagName</p>
+}

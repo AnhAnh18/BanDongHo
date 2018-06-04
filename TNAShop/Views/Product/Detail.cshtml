@@ -1,0 +1,115 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+@model TNAShop.ViewModels.ProductViewModel.ProductDetailViewModel
+<h2>Thông tin sản phẩm</h2>
+<div class="product-detail-container">
+    <div class="det-left">
+        <img src="@Url.Content(Model.Image)" />
+    </div>
+    <div class="det-right">
+        <h3>@Model.Name</h3>
+        <p>Mã sản phẩm : @Model.Id | Thương hiệu : @Model.Brand</p>
+        <div style="display:grid; grid-template-columns: auto auto;">
+            <div style="display:inline-grid; grid-template-columns: auto auto;">
+                <div style="display: inline-block;">
+                    <ul class="list-group" style="display:inline-block; color:#777777;padding:0px 15px;">
+                        <li>Tình trạng</li>
+                        <li>Bảo hành</li>
+                        <li>Loại dây</li>
+                        <li>Loại đồng hồ</li>
+                        <li>Đường kính</li>
+                        <li>Giới tính</li>
+                        <li>Mô tả :</li>
+                    </ul>
+
+                </div>
+                <div style="display:inline-block;">
+                    <ul style="list-style-type: none; padding:0px 15px;">
+                        <li>: @Model.Status</li>
+                        <li>: @Model.Warranty Tháng</li>
+                        <li>: @Model.Strap</li>
+                        <li>: @Model.Category</li>
+                        <li>: @Model.CaseSize</li>
+                        <li>: @Model.Gender</li>
+                        <li>: @(string.IsNullOrWhiteSpace(Model.Description) ? "Không có mô tả nào" : Model.Description)</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="background:#eee;color:#777777; padding:10px 20px; max-width:300px;">
+                @if (@Model.PromotionalPrice == "1") {
+                if (Model.Price == "1") {
+                        <p>Giá bán gọi để thỏa thuận</p>
+                    } else {
+                        <p>Giá niêm yết : <b style="color:red;">@Model.Price</b></p>
+                    }
+                } else {
+                    <p>Giá niêm yết : <del>@Model.Price VNĐ</del></p>
+                    <p style="color:black;">Giá khuyến mại : <b style="color:#c4161c; font-size:23px;">@Model.PromotionalPrice VNĐ</b></p>
+                    <p>Tiết kiệm @Model.Save</p>
+                }
+                @using (Html.BeginForm("AddToCart", "Product", FormMethod.Post)) {
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.Name)
+                    @Html.HiddenFor(x => x.Price)
+                    @Html.HiddenFor(x => x.Image)
+                    @Html.HiddenFor(x => x.Save)
+                    @Html.Hidden("Version", Model.Version)
+                    @Html.HiddenFor(x => x.PromotionalPrice)
+                    <input name="btnSubmit" style="width:49%; height:40px; background: #414c5c; color: white;" type="submit" value="Thêm vào giỏ" />
+                    <input name="btnSubmit" style="width:49%; height:40px; background: #414c5c; color: white;" type="submit" value="Mua ngay" />
+                }
+                <br />
+                <br />
+                <img src="~/Content/Images/Products/hotline-detail.png" /> <span> Gọi để nhận tư vấn mua hàng ngay <b>1800 6789</b></span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<h4 style="color:#414c5c; text-align: center;">Một số hình ảnh khác của sản phẩm</h4>
+<br />
+<div style="text-align: center;">
+    @if (!string.IsNullOrWhiteSpace(Model.MoreImages)) {
+        ImagePaths paths = Newtonsoft.Json.JsonConvert.DeserializeObject<ImagePaths>
+            (Model.MoreImages);
+        foreach (var path in paths.Images) {
+            <div style="width:250px; display:inline-block; height:200px;">
+                <img style="max-width:100%; max-height: 100%;" src="@Url.Content(path)" />
+            </div>
+        }
+    }
+</div>
+<hr />
+<h4 style="color:#414c5c;">Đánh giá sản phẩm </h4>
+
+<div style="display:grid; grid-template-columns: 60px auto;">
+    <img style="grid-row:1; grid-column: 1;" src="~/Content/Images/Users/user.jpg" />
+    @using (Html.BeginForm("AddComment", "Product", FormMethod.Post, new { style = "border: 1px solid #777;" })) {
+        @Html.Hidden("ProductId", Model.Id)
+        <textarea name="Content" placeholder="Thêm bình luận..." style="border:none;grid-row:1; grid-column: 2; width:100%; height: 60px; padding: 5px;"></textarea>
+        <div style="background:#ddd; overflow:hidden; padding:5px;">
+            @if (Request.IsAuthenticated) {
+                @Html.Hidden("Email", User.Identity.GetUserName())
+            }
+            <span> Bình luận ẩn danh </span>
+            <input type="checkbox" name="anonymous" />
+
+            <input style="width:80px; height: 30px; float:right; background:#4499ff; color:white; border-radius: 5px; border:none;" type="submit" value="Đăng" />
+        </div>
+    }
+</div>
+
+@foreach (var comment in Model.Comments) {
+    <div style="display:grid; padding:15px 0px ;grid-template-columns: 60px auto;">
+        <img style="grid-row:1; grid-column: 1;" src="~/Content/Images/Users/user.jpg" />
+        <div>
+            <p style="color:#414c5c"><b>@comment.Email</b></p>
+            <p>@comment.Content</p>
+        </div>
+    </div>
+}

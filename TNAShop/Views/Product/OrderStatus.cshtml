@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "OrderStatus";
+}
+@model TNAShop.ViewModels.ProductViewModel.OrderStatusViewModel
+<h2>Cảm ơn bạn đã mua hàng tại TNAShop chúng tôi sẽ gọi cho bạn sớm nhất để xác nhận đơn hàng.</h2>
+<ul>
+    <li>Tên khách hàng : @Model.CustomerName</li>
+    <li>Địa chỉ nhận hàng : @Model.Address</li>
+    <li>Tổng giá đơn hàng : <b style="color:red;">@Model.TotalPrice</b></li>
+    <li>Ghi chú : @Model.Note</li>
+    <li>Hình thức vận chuyển : @Model.TransportionType</li>
+    <li>Hình thức thanh toán : @Model.PaymentType</li>
+</ul>

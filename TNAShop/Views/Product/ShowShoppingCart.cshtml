@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "ShowShoppingCart";
+}
+@model TNAShop.ViewModels.ProductViewModel.ShoppingCartViewModel
+<style>
+    #shopping-cart th{
+        padding: 15px !important;
+    }
+</style>
+    <h3 style="color: #414c5c">Giỏ hàng của bạn</h3>
+    <table id="shopping-cart" class="table table-condensed shopping-cart-table">
+        <tr style="background: #eee;">
+            <th class="tbb">SẢN PHẨM</th>
+            <th>GIÁ CỦA SẢN PHẨM</th>
+            <th>SỐ LƯỢNG</th>
+            <th>THÀNH TIỀN</th>
+            <th>XÓA</th>
+        </tr>
+        @if (Model.Carts != null) {
+            foreach (var item in Model.Carts) {
+                <tr>
+                    <td><img style="max-width:80px;" src="@Url.Content(item.Image)" />@item.Name</td>
+                    <td>
+                        @if (item.PromotionalPrice == "1") {
+                        if (item.Price == "1") {
+                                <p>Giá bán gọi để thỏa thuận</p>
+                            } else {
+                                <p>Giá niêm yết : <b style="color:red;">@item.Price</b></p>
+                            }
+                        } else {
+                            <p>Giá niêm yết : <del>@item.Price VNĐ</del></p>
+                            <p style="color:black;">Giá khuyến mại : <b style="color:#c4161c;">@item.PromotionalPrice VNĐ</b></p>
+                            <p>Tiết kiệm @item.Save</p>
+                        }
+
+                    </td>
+                    <td><input name="BuyingQuantity" size="2" type="text" value="@item.BuyingQuantity" /></td>
+                    <td>
+                        <b style="color:red">@item.TotalPrice</b>
+                    </td>
+                    <td><a href="/Product/ClearCarts?productId=@item.Id">X</a></td>
+                </tr>
+            }
+        }
+    </table>
+<hr />
+<a href="/Product/Index" style="float:left; padding:15px; color:white; background:#414c5c"> <b><</b> Tiếp tục mua hàng</a>
+<a href="/Product/PlaceOrder" style="float:right; padding:15px; color:white; background:#414c5c"> Tiến hành thanh tóan <b>></b></a>

@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "PlaceOrder";
+}
+@model TNAShop.ViewModels.ProductViewModel.PlaceOrderViewModel
+@Html.ValidationMessageFor(x => x.CustomerName,"",new { @class="text-danger", style="font-size:15px;"})
+<br />
+@Html.ValidationMessageFor(x => x.Address, "", new { @class = "text-danger", style = "font-size:15px;" })
+<br />
+@Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger", style = "font-size:15px;" })
+<br />
+@Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger", style = "font-size:15px;" })
+<br />
+@Html.ValidationMessage("ConcurrencyError", new { @class = "text-danger" })
+<br />
+@Html.ValidationMessage("QuantityError", new { @class = "text-danger" })
+<br />
+
+@using (Html.BeginForm("CreateOrder", "Product", FormMethod.Post)) {
+    <link rel="stylesheet" href="~/Content/Order.css" />
+    <h2 style="text-align:center">Đặt mua sản phẩm</h2>
+    <div id="place-order">
+        <div class="item1">
+            <div class="text-center"><img src="~/Content/Images/Orders/info.png"/><h4>THÔNG TIN HÓA ĐƠN</h4></div>
+            @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control", placeholder = "Họ và tên*" })
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Email*" })
+            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", placeholder = "Số điện thoại*" })
+            @Html.TextBoxFor(x => x.Address, new { @class = "form-control", placeholder = "Địa chỉ*" })
+        </div>
+        <div class="item2">
+            <div class="text-center"><img src="~/Content/Images/Orders/vanchuyen.png" /><h4>THÔNG TIN HÓA ĐƠN</h4></div>
+            <div class="border-left-text">Hình thức vận chuyển</div>
+            <input type="radio" name="TransportionType" value="Đến địa chỉ người nhận" /> Đến địa chỉ người nhận <br />
+            <input type="radio" name="TransportionType" value="Người nhận đến lấy hàng" /> Người nhận đến lấy hàng <br />
+            <input type="radio" name="TransportionType" value="Qua bưu điện" /> Qua bưu điện <br />
+            <input type="radio" name="TransportionType" value="Hình thức khác" /> Hình thức khác <br />
+
+            <div class="border-left-text">Hình thức thanh toán</div>
+            <input type="radio" name="PaymentType" value="Tiền mặt (Giao hàng thu tiền)" /> Tiền mặt (Giao hàng thu tiền) <br />
+            <input type="radio" name="PaymentType" value="Chuyển khoản" /> Chuyển khoản <br />
+            @Html.TextAreaFor(x => x.Note, new { style = "width:100%; height: 50px;", placeholder = "Khách hàng ghi chú" })
+        </div>
+        <div class="item3 class="text-center"">
+            <div class="text-center"><img src="~/Content/Images/Orders/donhang.png" /><h4>THÔNG TIN HÓA ĐƠN</h4></div>
+            <div class="carts-container">
+                @{ 
+                    var carts = Model.Carts;
+                    string total="0";
+                    int index = -1;
+                }
+                @foreach (var item in carts) {
+                    index++;
+                    total = (double.Parse(total) + double.Parse(item.TotalPrice.Replace(".", ""))).ToString();
+                    @Html.Hidden("Carts[" + index + "].TotalPrice", item.TotalPrice)
+                    @Html.Hidden("Carts[" + index + "].Id", item.Id)
+                    @Html.Hidden("Carts[" + index + "].Version", item.Version)
+                    @Html.Hidden("Carts[" + index + "].BuyingQuantity", item.BuyingQuantity)
+                    @Html.Hidden("Carts[" + index + "].Image", item.Image)
+
+                    <div style="display:grid; grid-template-columns: 60px auto;">
+                        <img src="@Url.Content(item.Image)"/>
+                        <div>
+                            <span>@item.Name</span>
+                            <div><span>Giá KM :<b style="color:red;"> @(item.PromotionalPrice == "1" ? "Không khuyến mại" : item.PromotionalPrice) </b></span></div>
+                            <div><span>Giá niêm yết : @item.Price</span></div>
+                            <div><span></span></div>
+                            <div><span>SL : @item.BuyingQuantity | Tổng <b style="color:red;">@item.TotalPrice</b></span></div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <hr />
+                }
+                <div style="display: grid; grid-template-columns: auto auto;">
+                    <div style="padding-left:20px;">
+                        <p>Tổng tiền hàng:</p>
+                        <p>Phí vận chuyển:</p>
+                        <p>Tổng thanh toán:</p>
+                    </div>
+                    <div>
+                        <p>@TNAShop.Helpers.PriceHelper.NormalizePrice(total)</p>
+                        <p>MIỄN PHÍ</p>
+                        <p><b style="color:red;">@TNAShop.Helpers.PriceHelper.NormalizePrice(total)</b></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="/Product/ShowShoppingCart" style="float:left; padding:15px; color:white; background:#414c5c"> <b><</b> Trở về giỏ hàng</a>
+    <input style="float: right; border:none; padding:15px; color:white; background:#414c5c" type="submit" value="Thanh toán"/>
+}

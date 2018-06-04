@@ -1,0 +1,36 @@
+﻿#place-order{
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    grid-gap: 15px;
+}
+#place-order .border-left-text{
+    border-left: 4px solid #414c5c;
+    color: #414c5c;
+    font-size: 17px;
+    padding:5px;
+    background-color: white;
+    font-weight: bold;
+}
+#place-order > div{
+    background:#efefef;
+}
+#place-order>*{
+    padding:10px;
+}
+#place-order input, textarea{
+    max-width: 100% !important;
+    margin-top: 15px;
+}
+
+.carts-container{
+    display:grid;
+    grid-template-columns: auto;
+    background: white;
+}
+.carts-container img{
+    width:60px;
+    display: inline-block;
+}
+.item3{
+    max-width:380px !important;
+}

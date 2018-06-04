@@ -1,0 +1,101 @@
+﻿@model BaseViewModel
+<nav id="main-nav" class="grid">
+    <ul>
+        <li style="margin-left: 80px; text-align: center;"><a href="/Home/Index " title="Trang chủ"><img src="~/Content/Header/Images/menu_01.png" alt=""></a></li>
+        <li>
+            <a href="/Product/Index">ĐỒNG HỒ</a>
+        </li>
+        <li>
+            <a href="#">THƯƠNG HIỆU</a>
+            <ul class="nav-img" style="z-index: 9999;">
+                @foreach (var item in Model.Brands) {
+                    <li><a style="" href="/Product/index?brandId=@item.Id"><img src="@Url.Content(item.Image)" /></a></li>
+                }
+            </ul>
+        </li>
+        <li>
+            <a style="display: inline-block;" href="/Product/Index?gender=1">ĐỒNG HỒ NAM</a>
+            <div style=" width:100%;" class="sub-menu2">
+                <ul class="nav-item1">
+                    <b>Thương hiệu nổi bật</b>
+                    <hr />
+                    @foreach (var item in Model.Brands.Take(9)) {
+                        <li><a href="/Product/Index?gender=1&brandId=@item.Id">@item.Name</a></li>
+                    }
+                    <a onclick="$('#brand-hidden').css('display', 'block'); $(this).hide()">Xem thêm</a>
+                    <div style="display: none;" id="brand-hidden">
+                        @foreach (var item in Model.Brands.Skip(9)) {
+                            <li><a href="/Product/Index?brandId=@item.Id&gender=1">@item.Name</a></li>
+                        }
+                    </div>
+                </ul>
+                <ul  class="nav-item2">
+                    <b>Mức giá</b>
+                    <hr />
+                    @foreach(var item in Model.PriceFilterings.Take(9)) {
+                        <li><a href="/Product/Index?gender=1&minCost=@item.Min&maxCost=@item.Max">@item.Name</a></li>
+                    }
+                </ul>
+                <ul  class="nav-item3">
+                    <b>Loại dây</b>
+                    <hr />
+                    @foreach (var item in Model.Straps.Take(9)) {
+                        <li><a href="/product/index?gender=1&strapId=@item.Id">@item.StrapName</a></li>
+                    }
+                </ul>
+                <ul  class="nav-item4">
+                    <b>Loại đồng hồ</b>
+                    <hr />
+                    @foreach (var item in Model.Categories.Take(9)) {
+                        <li><a href="/product/index?gender=1&categoryId=@item.CategoryId">@item.CategoryName</a></li>
+                    }
+                    
+                </ul>
+            </div>
+        </li>
+        <li>
+            <a style="display: inline-block;" href="/Product/Index?gender=2">ĐỒNG HỒ NỮ</a>
+            <div style=" width:100%;" class="sub-menu2">
+                <ul class="nav-item1">
+                    <b>Thương hiệu nổi bật</b>
+                    <hr />
+                    @foreach (var item in Model.Brands.Take(9)) {
+                        <li><a href="/Product/Index?brandId=@item.Id&gender=2">@item.Name</a></li>
+                    }
+                    <a onclick="$('#f-brand-hidden').css('display', 'block'); $(this).hide()">Xem thêm</a>
+                    <div style="display: none;" id="f-brand-hidden">
+                        @foreach (var item in Model.Brands.Skip(9)) {
+                            <li><a href="/Product/Index?brandId=@item.Id&gender=2">@item.Name</a></li>
+                        }
+                    </div>
+                </ul>
+                <ul class="nav-item2">
+                    <b>Mức giá</b>
+                    <hr />
+                    @foreach (var item in Model.PriceFilterings) {
+                        <li><a href="/Product/Index?gender=2&minCost=@item.Min&maxCost=@item.Max">@item.Name</a></li>
+                    }
+
+                </ul>
+                <ul class="nav-item3">
+                    <b>Loại dây</b>
+                    <hr />
+                    @foreach (var item in Model.Straps) {
+                        <li><a href="/Product/Index?strapId=@item.Id&gender=2">@item.StrapName</a></li>
+                    }
+                </ul>
+                <ul class="nav-item4">
+                    <b>Loại đồng hồ</b>
+                    <hr />
+                    @foreach (var item in Model.Categories) {
+                        <li><a href="/product/index?gender=2&categoryId=@item.CategoryId">@item.CategoryName</a></li>
+                    }
+                </ul>
+            </div>
+        </li>   
+        <li><a href="/Discussion/Chat">THẢO LUẬN</a></li>
+        <li><a href="#">GIỚI THIỆU</a></li>
+
+        @RenderPage("_LoginPartial.cshtml")
+    </ul>
+</nav>

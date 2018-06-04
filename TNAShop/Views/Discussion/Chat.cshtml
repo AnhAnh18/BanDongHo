@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+}
+
+<h2 style="color:#414c5c; text-align: center;">Thảo luận</h2>
+<div>Số người tham gia : <b id="online-user"></b></div>
+<div class="container" style="background-color: #eee">
+    <ul style="height:500px; padding: 15px; list-style-type: none;;overflow: auto;" id="discussion"></ul>
+    <div style="display:grid; grid-template-columns: auto 80px;">
+        <input class="form-control" type="text" id="message" />
+        <input class="btn btn-primary" type="button" id="sendmessage" value="Send" />
+    </div>
+        <input style="display:none;" type="hidden" id="displayname" value="@HttpContext.Current.User.Identity.Name"/>
+</div>
+@section scripts {
+    <script>
+        $.connection.hub.logging = true;
+        $(function () {
+            var chat = $.connection.chatHub;
+
+            chat.client.addMessage = function (name, message) {
+                var content = document.createElement('li');
+                var nameText = document.createElement('b');
+                nameText.appendChild(document.createTextNode(name + ': '));
+                nameText.style.color = "#44ff99";
+                content.appendChild(nameText);
+                content.appendChild(document.createTextNode(message));
+
+                $('#discussion').append(content);
+            };
+            $('#message').focus();
+            $('#message').keypress(function (e) {
+                if (e.which == 13) {
+                    chat.server.send($('#displayname').val(), $('#message').val());
+                    $('#message').val('').focus();
+                }
+            });
+            
+            $.connection.hub.start().done(function () {
+
+                $('#sendmessage').click(function () {
+                    chat.server.send($('#displayname').val(), $('#message').val());
+                    $('#message').val('').focus();
+                });
+            });
+            var counter = $.connection.counterHub;
+            
+            counter.client.UpdateCount = function (count) {
+                $('#online-user').html(count);
+            }
+        });
+        
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+    </script>
+}

@@ -1,0 +1,82 @@
+﻿@model BaseViewModel
+@{
+    var carts = Session["Carts"] as List<TNAShop.ViewModels.ProductViewModel.ProductShoppingCart>;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/main-header-css.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/main-nav-css.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Product/ProductDetail.css" />
+    <meta charset="UTF-8">
+    
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <header style="margin-top:0px;" id="main-header" class="grid">
+        <div id="grid-item1">
+            <a href="/home/index"><img src="~/Content/Header/Images/vang_1519616094.png" alt=""></a>
+        </div>
+        <div id="grid-item2">
+            @using (Html.BeginForm("Index", "Product", FormMethod.Get)) {
+                <input name="filterName" class="search-box" type="text" placeholder="Tìm kiếm sản phẩm, thương hiệu bạn mong muốn">
+                <input class="search-button" type="submit" value="">
+            }
+
+        </div>
+        <div id="grid-item3">
+            <img src="~/Content/Header/Images/phone.png" alt="">
+            <span style="color:yellow;">1800 6785 (Miễn phí)</span>
+        </div>
+
+        <div id="grid-item4">
+            <a href="/Product/ShowShoppingCart">
+                <img src="~/Content/Header/Images/cart.png" alt="">
+                <span style="color:yellow;">
+                    Giỏ hàng
+                    @if (carts != null) {
+                        <span>có @carts.Count Sản phẩm</span>
+                    }
+                </span>
+            </a>
+        </div>
+        <div id="grid-item5">
+            <img src="~/Content/Header/Images/chinh-sach.png" alt="">
+            <span style="color:yellow;">100% chính hãng</span>
+        </div>
+        <div id="grid-item6">
+            <img src="~/Content/Header/Images/chinh-sach_02.png" alt="">
+            <span style="color:yellow;">Bảo hành chính hãng</span>
+        </div>
+        <div id="grid-item7">
+            <img src="~/Content/Header/Images/chinh-sach_05.png" alt="">
+            <span style="color:yellow;">Thay pin trọn đời</span>
+        </div>
+        <div id="grid-item8">
+            <img src="~/Content/Header/Images/chinh-sach_04.png" alt="">
+            <span style="color:yellow;white-space: pre-wrap;">Miễn phí vận chuyển</span>
+        </div>
+    </header>
+    @Html.Partial("~/Views/Shared/_MainNav.cshtml", Model)
+    <div id="div-body" style="padding:20px 50px;">
+        @RenderBody()
+    </div>
+    <div style="display:table; clear:both;"></div>
+    @Html.Partial("~/Views/Shared/Footer.cshtml")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    @RenderSection("scripts", required: false)
+    @RenderSection("HomePageSection", required: false)
+</body>
+</html>

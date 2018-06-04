@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "ViewNewComment";
+}
+@model IList<TNAShop.Domain.Comment>
+<h2>Bình luận mới</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>Email</th>
+        <th>Nội dung</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model) {
+        <tr>
+            <td>@item.Email</td>
+            <td>@item.Content</td>
+            <td><a href="/Admin/Admin/RemoveComment?id=@item.Id">Xóa</a></td>
+            <td><a href="/product/detail/@item.ProductId">Đi tới</a></td>
+        </tr>
+    }
+</table>
+
+

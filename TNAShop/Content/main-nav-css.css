@@ -1,0 +1,138 @@
+#main-nav ul {
+    list-style-type: none;
+}
+
+#main-nav > ul {
+    background: #652d92;
+}
+
+    #main-nav > ul > li {
+        display: inline-block;
+    }
+
+#main-nav a {
+    text-decoration: none;
+    color: #efefef;
+}
+
+#main-nav li {
+    line-height: 40px;
+    min-width: 90px;
+}
+
+#main-nav a {
+    padding: 10px 15px;
+    display: inline-block;
+}
+#main-nav .nav-img li{
+    display: inline-block;
+    padding: 5px;
+    
+}
+#main-nav img {
+    vertical-align: middle;
+}
+
+#main-nav > ul > li:hover a {
+    color: #E65100;
+}
+
+#main-nav > ul > li:hover {
+    background: white;
+    box-shadow: 0px 0px 20px white;
+}
+
+#main-nav .nav-img a {
+    display: inline-block;
+    background: url("Images/Brand/background.jpg") no-repeat;
+    width: 100px;
+    height: 67px;
+}
+
+#main-nav ul ul img {
+    max-width: 100%;
+}
+
+#main-nav  ul li:hover ul {
+    display: block;
+}
+
+#main-nav ul li:hover div {
+    display: grid;
+}
+
+
+#main-nav .nav-img {
+    background: white;
+    position: absolute;
+    max-width: 100%;
+    display: none;
+    left: 0px;
+    padding: 5px 80px;
+    box-shadow: 0px 0px 40px white;
+}
+.sub-menu2 a{
+    padding: 0px !important;
+    margin: -18px 0px !important;
+
+}
+
+.sub-menu2 li {
+    padding: 0px !important;
+    margin: -18px 0px !important;
+}
+
+
+#main-nav .sub-menu2 {
+    position: absolute;
+    max-width: 100%;
+    display: none;
+    background: white;
+}
+
+.sub-menu2 {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 10px;
+    left: 0px;
+    padding: 5px 80px;
+    box-shadow: 0px 0px 40px white;
+    z-index: 9999;
+}
+    
+    .sub-menu2 li {
+        display: block;
+    }
+    
+    .sub-menu2 > ul {
+        width: 100%;
+        padding: 10px 25px;
+        }
+    
+    .sub-menu2 ul b {
+        color: #414c5c;
+    }
+
+    .sub-menu2 .nav-item1 {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .sub-menu2 .nav-item2 {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .sub-menu2 .nav-item3 {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .sub-menu2 .nav-item4 {
+        grid-column: 4;
+        grid-row: 1;
+    }
+
+.carousel-inner img{
+    height:427px !important;
+}

@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "AddTags";
+}
+@model TNAShop.Areas.Admin.ViewModels.Admin.AddTagViewModel
+<h2>Thêm thẻ</h2>
+@using (Html.BeginForm("AddTag", "Product", FormMethod.Post)) {
+    <p><b>@Model.Product.Name</b></p>
+    @Html.Hidden("Product.Id", Model.Product.Id)
+    @Html.DropDownList("TagId", (IEnumerable<SelectListItem>)ViewBag.Tags, "--Chọn tag--", new {@class="form"})
+    <input type="submit" value="Thêm" />
+}
+
